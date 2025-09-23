@@ -62,7 +62,7 @@ header{
 .section-title-introduction{
   font-family: 'Noto Sans JP', sans-serif;
   font-weight: 800;
-  font-size: clamp(1.5rem, 1rem + 3vw, 3.125rem);
+  font-size: clamp(1.5rem, 1.1rem + 3vw, 3.125rem);
   background: linear-gradient(transparent 50%, #8efffb 50%);
   letter-spacing: 0.1em;
 }
@@ -136,7 +136,7 @@ body{
 .about {
   font-family: 'Noto Sans JP', sans-serif;
   font-weight: 600;
-  font-size: clamp(0.125rem, 0.125rem + 1vw, 1.8rem);
+  font-size: clamp(0.125rem, 0.125rem + 2.5vw, 1.8rem);
   line-height: 2;
 }
 
@@ -451,4 +451,20 @@ hr {
 .contents {
   font-family: 'Noto Sans JP', sans-serif;
   font-size: 20px;
+}
+
+.br-sp {
+  display: inline;
+}
+
+
+/* 画面幅が768px以下になったら（スマホを想定） */
+@media (max-width: 768px) {
+  .br-sp {
+    display: block; /* ブロック要素に変えることで、この要素の手前で改行が起こる */
+  }
+}
+
+.no-wrap {
+  white-space: nowrap;
 }
