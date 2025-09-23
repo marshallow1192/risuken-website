@@ -28,36 +28,34 @@ header{
 
 .introduction{
   padding-top: 80px;
-  padding-left: 100px;
-  padding-right: 80px;
+  padding-left: clamp(1.5rem, 1.5rem + 6vw, 6.25rem);
+  padding-right: clamp(1.5rem, 1.5rem + 6vw, 5rem);
   background-color:rgba(240, 245, 255, 0.5);
 }
 
 .information {
   padding-top: 40px;
   padding-bottom: 40px;
-  padding-left: 100px;
-  padding-right: 80px;
+  padding-left: clamp(1.5rem, 1.5rem + 6vw, 6.25rem);
+  padding-right: clamp(1.5rem, 1.5rem + 6vw, 5rem);
   background-color:rgba(240, 245, 255, 0.5);
 }
 
 .info .information {
   padding-top: 80px;
-  padding-left: 100px;
-  padding-right: 80px;
+  padding-left: clamp(1.5rem, 1.5rem + 6vw, 6.25rem);
+  padding-right: clamp(1.5rem, 1.5rem + 6vw, 5rem);
   background-color:rgba(240, 245, 255, 0.5);
   text-align: center;
 }
 
 .article .information {
   padding-top: 80px;
-  padding-left: 100px;
-  padding-right: 80px;
+  padding-left: clamp(1.5rem, 1.5rem + 6vw, 6.25rem);
+  padding-right: clamp(1.5rem, 1.5rem + 6vw, 5rem);
   background-color:rgba(240, 245, 255, 0.5);
   text-align: center;
 }
-
-
 
 .section-title-introduction{
   font-family: 'Noto Sans JP', sans-serif;
@@ -69,16 +67,22 @@ header{
 
 .section-title-information{
   font-family: 'Noto Sans JP', sans-serif;
+  margin: 0 0 ;
   font-weight: 800;
-  font-size: clamp(1.5rem, 1rem + 3vw, 3.125rem);
+  line-height: clamp(1, 0.5 + 1vw, 1.2);
+  font-size: clamp(1.5rem, 1.1rem + 3vw, 3.125rem);
   background: linear-gradient(transparent 50%, yellow 50%);
   letter-spacing: 0.1em;
+}
+
+.article .section-title-information {
+  font-size: clamp(0.5rem, 0.5rem + 3vw, 3.125rem);
 }
 
 .section-sub-title {
   font-family: "Oswald", sans-serif;
   font-weight: bold;
-  font-size: 25px;
+  font-size: clamp(0.5rem, 0.3rem + 3vw, 1.6rem);
   border-bottom: 3px solid #1f1f1f;
   padding-bottom: 2px;
 }
@@ -136,7 +140,7 @@ body{
 .about {
   font-family: 'Noto Sans JP', sans-serif;
   font-weight: 600;
-  font-size: clamp(0.125rem, 0.125rem + 2.5vw, 1.8rem);
+  font-size: clamp(0.5rem, 0.5rem + 2.5vw, 1.8rem);
   line-height: 2;
 }
 
@@ -382,7 +386,7 @@ hr {
   border: none; /* デフォルトの線をリセット */
   height: 1px; /* 線の太さ */
   background-color: #ccc; /* 線の色（薄いグレー） */
-  margin: 40px 0; /* 上下の余白 */
+  margin: 0 0; /* 上下の余白 */
 }
 
 /* --- ページネーションのコンテナ --- */
@@ -427,18 +431,23 @@ hr {
 }
 
 .infoContainer {
-  padding: 120px 100px 80px;
+  margin:0 0;
+  padding-top: 80px;
+  padding-left: clamp(0.15rem, 0.15rem + 6vw, 6.25rem);
+  padding-right: clamp(0.15rem, 0.15rem + 6vw, 5rem);
   background-color:rgba(240, 245, 255, 0.5);
   text-align: center;
 }
 
 .reportContents {
-  padding: 20px 50px 40px;
+  margin:0 0;
+  padding-top: clamp(1.5rem, 0.5rem + 5vw, 5rem);
+  padding-left: clamp(0.15rem, 0.15rem + 6vw, 6.25rem);
+  padding-right: clamp(0.15rem, 0.15rem + 6vw, 5rem);
   border-radius: 2px;
   background-color:white;
   text-align: left;
 }
-
 .displayDate {
   color :#555;
   font-size: medium;
@@ -467,4 +476,8 @@ hr {
 
 .no-wrap {
   white-space: nowrap;
+}
+
+.setmargin{
+  margin:0 0;
 }
