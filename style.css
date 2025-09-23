@@ -62,7 +62,7 @@ header{
 .section-title-introduction{
   font-family: 'Noto Sans JP', sans-serif;
   font-weight: 800;
-  font-size: 50px;
+  font-size: clamp(2rem, 1rem + 3vw, 3.125rem);
   background: linear-gradient(transparent 50%, #8efffb 50%);
   letter-spacing: 0.1em;
 }
