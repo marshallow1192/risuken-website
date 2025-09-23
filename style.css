@@ -62,7 +62,7 @@ header{
 .section-title-introduction{
   font-family: 'Noto Sans JP', sans-serif;
   font-weight: 800;
-  font-size: clamp(2rem, 1rem + 3vw, 3.125rem);
+  font-size: clamp(1.5rem, 1rem + 3vw, 3.125rem);
   background: linear-gradient(transparent 50%, #8efffb 50%);
   letter-spacing: 0.1em;
 }
@@ -70,7 +70,7 @@ header{
 .section-title-information{
   font-family: 'Noto Sans JP', sans-serif;
   font-weight: 800;
-  font-size: 50px;
+  font-size: clamp(1.5rem, 1rem + 3vw, 3.125rem);
   background: linear-gradient(transparent 50%, yellow 50%);
   letter-spacing: 0.1em;
 }
@@ -129,14 +129,14 @@ body{
   width: 90%;           /* 横幅が広がりすぎないように調整 */
   font-family: 'Stick', sans-serif;
   font-weight: 500;
-  font-size: 45px;
+  font-size: clamp(0.25rem, 0.5rem + 3vw, 3rem);
   z-index: 10;          /* スライドより手前に表示されるように念のため指定 */
 }
 
 .about {
   font-family: 'Noto Sans JP', sans-serif;
   font-weight: 600;
-  font-size: 30px;
+  font-size: clamp(0.125rem, 0.125rem + 1vw, 1.8rem);
   line-height: 2;
 }
 
@@ -250,7 +250,7 @@ body{
   background-color: #ffffff;
   font-family: 'Noto Sans JP', sans-serif;
   font-weight: 800;
-  font-size: 40px;
+  font-size: clamp(1.5rem, 1rem + 3vw, 2.5rem);
   background: linear-gradient(transparent 50%, #8eff9f 50%);
   letter-spacing: 0.05em;
 }
@@ -354,7 +354,7 @@ footer {
 
 .intro .about{
   text-align: left;
-  font-size: 20px;
+  font-size: clamp(0.15rem, 0.15rem + 2.5vw, 1.8rem);
 }
 
 .slide-container {
