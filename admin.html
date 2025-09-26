@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>投稿用ページ</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        input, textarea { width: 100%; margin-bottom: 10px; padding: 5px; }
+        textarea { height: 200px; }
+        #output { background-color: #f4f4f4; border: 1px solid #ccc; white-space: pre; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>お知らせ投稿フォーム</h1>
+    <form id="post-form">
+        <label>ID (例: report3):</label>
+        <input type="text" id="id" required>
+        
+        <label>タイトル:</label>
+        <input type="text" id="title" required>
+        
+        <label>日付 (YYYY-MM-DD):</label>
+        <input type="date" id="date" required>
+
+        <label>画像:</label>
+        <input type="file" id="image" name="image" accept="image/*" required>
+
+        <label>本文 (Markdown形式):</label>
+        <textarea id="contentMd"></textarea>
+        
+        <button type="submit">JSONを生成</button>
+    </form>
+    
+    <h2>生成されたJSON（これをコピーしてactivities.jsonに追記）:</h2>
+    <pre><code id="output"></code></pre>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+   document.getElementById('post-form').addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        // ▼▼▼ FormDataを使ってデータを送信するように変更 ▼▼▼
+        const form = event.target;
+        const formData = new FormData(form);
+
+        // 日付のフォーマットを追加
+        const date = new Date(formData.get('date'));
+        const displayDate = `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
+        formData.append('displayDate', displayDate);
+
+        // linkを追加
+        formData.append('link', `${formData.get('id')}.html`);
+
+        // fetchでサーバーにFormDataを送信
+        try {
+          // 'Content-Type'ヘッダーは指定しない（ブラウザが自動で設定）
+          const response = await fetch('http://localhost:3000/api/posts', {
+            method: 'POST',
+            body: formData,
+          });
+
+          const result = await response.json();
+          alert(result.message);
+          if (response.ok) form.reset();
+
+        } catch (error) {
+          console.error('送信エラー:', error);
+          alert('投稿の送信に失敗しました。');
+        }
+      });
+</script>
+</body>
+</html>
