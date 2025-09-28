@@ -39,18 +39,21 @@ app.post('/api/posts', upload.single('image'), (req, res) => {
 
   // 1. 新しい投稿データをテキスト部分から取得
   const newPost = req.body;
-  
+
   // 2. アップロードされた画像のパスを追加
   if (req.file) {
     newPost.image = `/img/${req.file.filename}`;
   } else {
     newPost.image = 'activity-default.jpg'; // 画像がない場合のデフォルト
   }
-  
+
   const dataPath = path.join(__dirname, '..', 'info.json');
 
   try {
     const currentData = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    const idNum = currentData[0]["idNum"]+1;
+    newPost.idNum = idNum;
+    newPost.link = `report${idNum}.html`;
     currentData.unshift(newPost); // 新しい投稿を配列の先頭に追加
     const newJsonData = JSON.stringify(currentData, null, 2);
     fs.writeFileSync(dataPath, newJsonData, 'utf8');
