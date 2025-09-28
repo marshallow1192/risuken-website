@@ -42,9 +42,9 @@ app.post('/api/posts', upload.single('image'), (req, res) => {
 
   // 2. アップロードされた画像のパスを追加
   if (req.file) {
-    newPost.image = `/img/${req.file.filename}`;
+    newPost.img = `/img/${req.file.filename}`;
   } else {
-    newPost.image = 'activity-default.jpg'; // 画像がない場合のデフォルト
+    newPost.img = '/img/activity-default.jpg'; // 画像がない場合のデフォルト
   }
 
   const dataPath = path.join(__dirname, '..', 'info.json');
@@ -62,6 +62,102 @@ app.post('/api/posts', upload.single('image'), (req, res) => {
   } catch (error) {
     console.error('エラー:', error);
     res.status(500).json({ message: 'サーバーでエラーが発生しました。' });
+  }
+});
+
+app.get('/api/posts', (req, res) => {
+  const dataPath = path.join(__dirname, '..', 'info.json');
+  try {
+    const data = fs.readFileSync(dataPath, 'utf8');
+    res.status(200).json(JSON.parse(data));
+  } catch (error) {
+    res.status(500).json({ message: 'データの読み込みに失敗しました。' });
+  }
+});
+
+// ...app.get('/api/posts', ...) の下に追加...
+
+// GETリクエストを '/api/posts/:id' というURLで受け付ける (一件取得用)
+app.get('/api/posts/:id', (req, res) => {
+  const dataPath = path.join(__dirname, '..', 'info.json');
+  try {
+    const allPosts = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    // URLの:idと一致する記事を探す
+    const post = allPosts.find(p => p.idNum == req.params.id);
+    if (post) {
+      res.status(200).json(post);
+    } else {
+      res.status(404).json({ message: '記事が見つかりません。' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'サーバーエラー' });
+  }
+});
+
+app.put('/api/posts/:id', upload.single('image'), (req, res) => {
+  const dataPath = path.join(__dirname, '..', 'info.json');
+  try {
+    const allPosts = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+    const postIndex = allPosts.findIndex(p => p.idNum == req.params.id);
+
+    if (postIndex === -1) {
+      return res.status(404).json({ message: '更新対象の記事が見つかりません。' });
+    }
+
+    // 既存のデータを取得し、新しいデータで上書き
+    const updatedPost = {
+      ...allPosts[postIndex], // 既存のデータをコピー
+      ...req.body, // 新しいテキストデータで上書き
+      image: req.file ? `/uploads/${req.file.filename}` : allPosts[postIndex].image // 画像が更新されていればパスを更新
+    };
+    // 配列の該当箇所を新しいデータに差し替え
+    allPosts[postIndex] = updatedPost;
+
+    fs.writeFileSync(dataPath, JSON.stringify(allPosts, null, 2), 'utf8');
+    res.status(200).json({ message: '記事を更新しました！' });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'サーバーエラー' });
+  }
+});
+
+app.delete('/api/posts/:id', (req, res) => {
+  const dataPath = path.join(__dirname, '..', 'info.json');
+  try {
+    const allPosts = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
+
+    // ▼▼▼ ここからが変更点 ▼▼▼
+
+    // 1. 削除対象の記事を見つけて、ファイル名（link）を取得する
+    const postToDelete = allPosts.find(p => p.idNum == req.params.id);
+    
+    // もし削除対象が見つからなければ、エラーを返す
+    if (!postToDelete) {
+      return res.status(404).json({ message: '削除対象の記事が見つかりません。' });
+    }
+    const htmlFilePath = path.join(__dirname, '..', postToDelete.link);
+
+    // 2. 記事リストから対象の記事を除外する (既存のロジック)
+    const updatedPosts = allPosts.filter(p => p.idNum != req.params.id);
+    fs.writeFileSync(dataPath, JSON.stringify(updatedPosts, null, 2), 'utf8');
+
+    // 3. 実際にHTMLファイルを削除する
+    //    fs.existsSync()でファイルが本当に存在するか念のため確認
+    if (fs.existsSync(htmlFilePath)) {
+      fs.unlinkSync(htmlFilePath); // ファイルを同期的に削除
+      console.log(`${htmlFilePath} を削除しました。`);
+    } else {
+      console.log(`${htmlFilePath} は見つかりませんでしたが、JSONデータは削除されました。`);
+    }
+    
+    // ▲▲▲ ここまでが変更点 ▲▲▲
+
+    res.status(200).json({ message: '記事データとHTMLファイルを削除しました。' });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'サーバーエラー' });
   }
 });
 
